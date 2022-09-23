@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+# Gerencia os pods, gerando replicas especificadas deles. Contudo, não
+# atualiza os pods quando novas versões das imagens são lançadas.
+kind: ReplicaSet
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  # Seletor de labels para filtrar grupos específicos no futuro, 
+  # encaminhar tráfego etc.
+  selector: 
+    matchLabels:
+      app: goserver
+  # Quantidades de répicas que devem estar rodando.
+  replicas: 10
+  # Gera os pods baseados em templates, como o usado em pods.yaml
+  template: 
+    metadata:
+      labels:
+        app: "goserver"
+    spec:
+      containers:
+        - name: goserver
+          image: "gacarneirojr/hello-go:v9.6"

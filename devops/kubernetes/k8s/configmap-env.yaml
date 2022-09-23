@@ -1,0 +1,9 @@
+# Variáveis de ambiente com ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goserver-env
+data:
+  NAME: "Wesley"
+  AGE: "36"
+

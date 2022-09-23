@@ -1,0 +1,52 @@
+# Entendendo readiness
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  selector: 
+    matchLabels:
+      app: goserver
+  replicas: 1
+
+  template: 
+    metadata:
+      labels:
+        app: "goserver"
+    spec:
+      containers:
+        - name: goserver
+          image: "gacarneirojr/hello-go:v5.4"
+
+          # Configuração do Readiness Proble
+          readinessProbe:
+            httpGet:
+            # End point a ser verificado
+              path: /healthz
+              port: 8000
+              # Frequência de verificação
+            periodSeconds: 3
+            # QUantas vezes o erro ocorre para reiniciar o container
+            failureThreshold: 1
+            # O readiness só roda inicia depois de 10 s
+            initialDelaySeconds: 10
+
+          envFrom:
+            - configMapRef:
+                name: goserver-env
+            - secretRef:
+                name: goserver-secret
+          
+          volumeMounts:
+            - mountPath: "/go/myfamily"
+              name: config
+      
+      volumes:
+        - name: config
+          configMap:
+            name: configmap-family
+            items:
+            - key: members
+              path: "family.txt"

@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS nodedb;
+CREATE TABLE `nodedb`.`people` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`));

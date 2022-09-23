@@ -1,0 +1,24 @@
+# Versão do API
+apiVersion: v1
+# Tipo de objeto que está sendo criado
+kind: Pod
+# Informações do Pod
+metadata:
+  name: "goserver"
+  # Label serve para ser uma referência para filtros, busca ou regras
+  labels:
+    app: "goserver"
+# Especificações do Pod
+spec:
+  containers:
+  - name: goserver
+    # Imagem no Docker Hub
+    image: "gacarneirojr/hello-go:v9.6"
+    # Alocação de recursos computacionais
+    resources:
+      limits:
+        # Memória
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 8000

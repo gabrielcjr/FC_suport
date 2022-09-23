@@ -1,0 +1,40 @@
+gpg --list-secret-key --keyid-form LONG # para verificar se tem alguma chave
+se não tiver
+gpg --full-generate-key
+opção 1
+4096 bits
+0 para chave não expirar
+Confirma com Y
+Nome da chave tem que ser igual ao Git Config - 
+email
+Não precisa comentar
+Selecionar O para Ok
+Digitar uma senha para os commits
+Repetir a senha
+A Chave é gerada 
+Roda o comando novamente para ver a chave criada
+gpg --list-secret-key --keyid-form LONG
+O id fica localizado na linha SEC após a barra no rsa4096/
+digitar o comando
+gpg --armor --export seuId
+O public será exibido. Selecione tudo e copie
+Na página do GitHub, vá em Settings, em seguida em SSH and GPG key
+Clique em New GPG key
+Cola a chave pública e adiciona
+Voltando no terminal, 
+Rigite o comando
+gpg --list-secret-key --keyid-form LONG
+Pegue sua ID novamente,
+Digite
+git config --global user.signingkey seuID
+Depois
+Coloque a seguinte linha no ~/.bash_profile
+export GPG_TTY=$(tty)
+Sem isto, todas a vezes que você iniciar o Ubuntu, você perderá a configuração da assinatura dos commits
+Depois
+git config --global commit.gpgsign true 
+git config --global tag.gpgSign true 
+
+
+remover key 
+gpg --delete-key key-ID

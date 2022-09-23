@@ -1,0 +1,37 @@
+# Injetando ConfigMap na aplicação
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  selector: 
+    matchLabels:
+      app: goserver
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: "goserver"
+    spec:
+      containers:
+        - name: goserver
+          image: "gacarneirojr/hello-go:v5.3"
+          envFrom:
+            - configMapRef:
+                name: goserver-env
+            - secretRef:
+                name: goserver-secret
+          
+          volumeMounts:
+            - mountPath: "/go/myfamily"
+              name: config
+      
+      volumes:
+        - name: config
+          configMap:
+            name: configmap-family
+            items:
+            - key: members
+              path: "family.txt"

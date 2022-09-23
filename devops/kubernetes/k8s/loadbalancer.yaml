@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goserver-service
+spec:
+  selector:
+    app: goserver
+  # O load balancer gera um ip para acesso externo para un cluster 
+  # gerenciado que está conectado diretamente a um provedor de núvem.
+  # Desta maneira, os nodes serão acessados de maneira proporcional de
+  # acordo com o tráfego
+  type: LoadBalancer
+  ports:
+  - name: goserver-service
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+    

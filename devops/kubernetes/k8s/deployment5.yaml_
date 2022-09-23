@@ -1,0 +1,52 @@
+# Liveness proble
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  selector: 
+    matchLabels:
+      app: goserver
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: "goserver"
+    spec:
+      containers:
+        - name: goserver
+          image: "gacarneirojr/hello-go:v5.3"
+          # Configuração do Liveness Proble
+          livenessProbe:
+            httpGet:
+            # End point a ser verificado
+              path: /healthz
+              port: 8000
+              # Frequência de verificação
+            periodSeconds: 5
+            # QUantas vezes o erro ocorre para reiniciar o container
+            failureThreshold: 3
+            # O tempo de espera para checagem
+            timeoutSeconds: 1
+            # Verifica quantas vezes vai ser testado para considerar como live
+            successThreshold: 1
+
+          envFrom:
+            - configMapRef:
+                name: goserver-env
+            - secretRef:
+                name: goserver-secret
+          
+          volumeMounts:
+            - mountPath: "/go/myfamily"
+              name: config
+      
+      volumes:
+        - name: config
+          configMap:
+            name: configmap-family
+            items:
+            - key: members
+              path: "family.txt"

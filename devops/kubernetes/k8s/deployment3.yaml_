@@ -1,0 +1,36 @@
+# Variáveis de ambiente com ConfigMap
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goserver
+  labels:
+    app: goserver
+spec:
+  selector: 
+    matchLabels:
+      app: goserver
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: "goserver"
+    spec:
+      containers:
+        - name: goserver
+          image: "gacarneirojr/hello-go:v4"
+          envFrom:
+            - configMapRef:
+                name: goserver-env
+
+          # env:
+          #   - name: NAME
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: goserver-env
+          #         key: NAME
+                  
+          #   - name: AGE
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: goserver-env
+          #         key: AGE
